@@ -2394,6 +2394,7 @@ func TestDefaultApiService_GetGroupsWithAnyPermission_12(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -2403,14 +2404,14 @@ func TestDefaultApiService_GetGroupsWithAnyPermission_12(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//permissions/groups: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.GetGroupsWithAnyPermission_12(tt.args.localVarOptionals)
+			got, err := a.GetGroupsWithAnyPermission_12(tt.args.projectKey, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.GetGroupsWithAnyPermission_12() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -2427,6 +2428,8 @@ func TestDefaultApiService_GetGroupsWithAnyPermission_13(t *testing.T) {
 		client *APIClient
 	}
 	type args struct {
+		projectKey        string
+		repositorySlug    string
 		localVarOptionals map[string]interface{}
 	}
 	tests := []struct {
@@ -2436,14 +2439,14 @@ func TestDefaultApiService_GetGroupsWithAnyPermission_13(t *testing.T) {
 		want    *APIResponse
 		wantErr bool
 	}{
-		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects/%7BprojectKey%7D/repos/%7BrepositorySlug%7D/permissions/groups: context canceled"}, true},
+		{"networkErrorContextExceeded", fields{client: generateConfigFake()}, args{}, &APIResponse{Message: "Get https://stash.domain.com/rest/api/1.0/projects//repos//permissions/groups: context canceled"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &DefaultApiService{
 				client: tt.fields.client,
 			}
-			got, err := a.GetGroupsWithAnyPermission_13(tt.args.localVarOptionals)
+			got, err := a.GetGroupsWithAnyPermission_13(tt.args.projectKey, tt.args.repositorySlug, tt.args.localVarOptionals)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DefaultApiService.GetGroupsWithAnyPermission_13() error = %v, wantErr %v", err, tt.wantErr)
 				return

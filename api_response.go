@@ -5,8 +5,8 @@
 package bitbucketv1
 
 import (
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -103,6 +103,17 @@ type UserWithMetadata struct {
 	Role     string        `json:"role"`
 	Approved bool          `json:"approved"`
 	Status   string        `json:"status"`
+}
+
+// Group represents a user group
+type Group struct {
+	Name string `json:"name"`
+}
+
+// GroupPermission contains a group with its permission
+type GroupPermission struct {
+	Group      Group  `json:"group"`
+	Permission string `json:"permission"`
 }
 
 type MergeResult struct {
@@ -275,16 +286,16 @@ type Content struct {
 }
 
 type WebhookConfiguration struct {
-  Secret          string     `json:"secret"`
+	Secret string `json:"secret"`
 }
 
 type Webhook struct {
-	ID              int        `json:"id"`
-	Name            string     `json:"name"`
-	Events          []string   `json:"events"`
-	Url             string     `json:"url"`
-	Active          bool       `json:"active"`
-	Configuration   WebhookConfiguration     `json:"configuration"`
+	ID            int                  `json:"id"`
+	Name          string               `json:"name"`
+	Events        []string             `json:"events"`
+	Url           string               `json:"url"`
+	Active        bool                 `json:"active"`
+	Configuration WebhookConfiguration `json:"configuration"`
 }
 
 func (k *SSHKey) String() string {
@@ -353,6 +364,13 @@ func GetPullRequestResponse(r *APIResponse) (PullRequest, error) {
 func GetContentResponse(r *APIResponse) (Content, error) {
 	var c Content
 	err := mapstructure.Decode(r.Values, &c)
+	return c, err
+}
+
+// GetGroupsPermissionResponse casts group permissions into structure
+func GetGroupsPermissionResponse(r *APIResponse) ([]GroupPermission, error) {
+	var c []GroupPermission
+	err := mapstructure.Decode(r.Values["values"], &c)
 	return c, err
 }
 
